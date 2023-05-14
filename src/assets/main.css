@@ -1,0 +1,230 @@
+
+body {
+    background-color: var(--color-neutral-1);
+}
+ul {
+    padding: 0;
+    margin: 0;
+}
+li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-move {
+    cursor: move;
+}
+
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.no-visible {
+    visibility: hidden !important;
+}
+
+.inlines {
+    display: inline-flex;
+}
+
+/** ------------- 覆盖 arco ------------ **/
+
+/*
+.arco-tabs-nav-tab {
+    border-right: 1px solid var(--color-neutral-3);
+    border-top: 1px solid var(--color-neutral-3);
+}
+
+.arco-tabs-nav-type-card .arco-tabs-tab, .arco-tabs-nav-type-card-gutter .arco-tabs-tab {
+    border-left: 1px solid var(--color-neutral-3);
+}
+*/
+.arco-card-size-medium .arco-card-body {
+    padding: 0;
+}
+
+.arco-tabs-nav-type-card .arco-tabs-tab:first-child {
+    border-top-left-radius: 0;
+}
+
+.arco-tabs-nav-type-card .arco-tabs-tab:last-child {
+    border-top-right-radius: 0;
+}
+
+.arco-divider-text {
+    background: none !important;
+}
+
+.arco-tabs-content {
+    padding: 16px;
+}
+
+/** ------------- 查找面板的样式 ------------ **/
+
+.search-panel {
+    margin-top: 12px;
+    transition: opacity .1s ease-out;
+}
+
+.search-bottom {
+    transition: margin-top .2s, margin-bottom .2s
+}
+
+.search-line {
+    position: relative;
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.search-line-title {
+    position: relative;
+    display: flex;
+    max-width: 10%;
+    overflow: hidden;
+    color: var(--color-neutral-6);
+    align-items: center;
+    flex: 0 0 10%;
+    margin-left: 5px;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.search-line-ul {
+    display: flex;
+    max-width: 90%;
+    overflow: hidden;
+    flex: 0 0 90%;
+    padding: 0;
+    margin: 0;
+}
+
+.search-line-li {
+    max-width: 16.666667%;
+    flex: 0 0 16.666667%;
+}
+
+.search-line-li-a {
+    position: relative;
+    display: inline-flex;
+    max-width: 100%;
+    padding: 8px;
+    border-radius: 2px;
+    overflow: hidden;
+    transition: background .1s ease-out;
+    color: inherit;
+    text-decoration: none;
+}
+
+.search-line-li-a:hover {
+    background: var(--color-neutral-3);
+}
+
+.search-line-li-a:hover:after {
+    opacity: 0;
+}
+
+.search-line-li-a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*box-shadow: inset -6px 0 6px 0 var(--block-background);*/
+    transition: opacity .1s ease-out;
+}
+
+.search-line-li-a-img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    opacity: .9;
+    /*filter: saturate(80%);*/
+}
+
+
+/** ------------- tab 面板下的样式 ------------ **/
+
+.link-li {
+    float: left;
+    width: 20%;
+    background-color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px dashed transparent;
+    padding: 2px;
+}
+.link-li-editable {
+    border: 1px dashed #ddd;
+}
+.link-a {
+    cursor: pointer;
+    text-decoration: none;
+    width: 65%;
+    float: left;
+    display: block;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    height: 20px;
+    line-height: 20px;
+}
+.link-chip-btn {
+    float: right;
+}
+
+.link-chip .link-chip-image {
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    float: left;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 6px;
+}
+
+/* 右下角功能样式 */
+
+.button-trigger {
+    position: fixed;
+    right: 120px;
+    bottom: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--color-white);
+    font-size: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.1s;
+    background-color: var(--color-neutral-5);
+}
+
+.button-trigger.button-trigger-active {
+    background-color: var(--color-neutral-4);
+}

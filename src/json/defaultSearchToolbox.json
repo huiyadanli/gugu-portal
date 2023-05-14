@@ -1,0 +1,251 @@
+[
+  {
+    "name": "常用",
+    "icon": "icon-sousuo",
+    "canBeCollapsed": false,
+    "collapsed": false,
+    "sites": [
+      {
+        "name": "百度",
+        "src": "https://www.baidu.com/s?wd={q}"
+      },
+      {
+        "name": "Bing",
+        "src": "https://cn.bing.com/search?q={q}",
+        "icon": "https://0x3.com/icon?host=bing.com"
+      },
+      {
+        "name": "You",
+        "src": "https://you.com/search?q={q}"
+      },
+      {
+        "name": "Github",
+        "src": "https://github.com/search?q={q}&type=repositories"
+      },
+      {
+        "name": "哔哩哔哩",
+        "src": "https://search.bilibili.com/all?keyword={q}"
+      },
+      {
+        "name": "知乎",
+        "src": "https://www.zhihu.com/search?type=question&q={q}"
+      }
+    ]
+  },
+  {
+    "name": "网页",
+    "icon": "icon-sousuo",
+    "collapsed": true,
+    "sites": [
+      {
+        "name": "百度",
+        "src": "https://www.baidu.com/s?wd={q}"
+      },
+      {
+        "ico": "google.ico",
+        "name": "Google",
+        "src": "https://www.google.com/search?q={q}"
+      },
+      {
+        "name": "Bing",
+        "src": "https://cn.bing.com/search?q={q}",
+        "icon": "https://0x3.com/icon?host=bing.com"
+      },
+      {
+        "name": "You",
+        "src": "https://you.com/search?q={q}"
+      },
+      {
+        "name": "F搜",
+        "src": "https://fsoufsou.com/search?q={q}"
+      }
+    ]
+  },
+  {
+    "name": "影视",
+    "icon": "icon-icon_video",
+    "collapsed": true,
+    "sites": [
+      {
+        "name": "茶杯狐",
+        "src": "https://cupfox.app/s/{q}"
+      },
+      {
+        "name": "豌豆影视",
+        "src": "https://wandou.pro/search/{q}"
+      },
+      {
+        "name": "7080",
+        "src": "https://7080.wang/so.html?show=title&tbname=movie&tempid=1&wd={q}"
+      },
+      {
+        "name": "hdmoli",
+        "src": "https://www.hdmoli.com/search.php?searchword={q}"
+      },
+      {
+        "name": "ZzzFun",
+        "src": "http://www.zzzfun.com/vod_search.html?wd={q}"
+      }
+    ]
+  },
+  {
+    "name": "音乐",
+    "icon": "icon-yinleyule",
+    "collapsed": true,
+    "sites": [
+      {
+        "name": "音乐聚合",
+        "src": "http://music.qyqm.top/"
+      },
+      {
+        "name": "FreeMP3",
+        "src": "https://myfreemp3juices.cc/"
+      },
+      {
+        "name": "铜钟",
+        "src": "https://tonzhon.com/search?keyword={q}"
+      },
+      {
+        "name": "放屁音乐",
+        "src": "https://www.fangpi.net/s/{q}"
+      },
+      {
+        "name": "歌曲宝",
+        "src": "https://www.fangpi.net/s/{q}"
+      },
+      {
+        "name": "MusicEnc",
+        "src": "https://www.musicenc.com/?search={q}"
+      }
+    ]
+  },
+  {
+    "name": "软件",
+    "icon": "icon-ruanjian",
+    "collapsed": true,
+    "sites": [
+      {
+        "name": "果核剥壳",
+        "src": "https://www.ghxi.com/?s={q}"
+      },
+      {
+        "name": "亿破姐",
+        "src": "https://www.ypojie.com/?s={q}"
+      },
+      {
+        "name": "大眼仔",
+        "src": "http://www.dayanzai.me/?s={q}"
+      },
+      {
+        "name": "辅助狗",
+        "src": "https://www.fuzhugou.com/find/{q}"
+      },
+      {
+        "name": "软件搜",
+        "src": "https://rjss.pages.dev/"
+      }
+    ]
+  },
+  {
+    "name": "网盘",
+    "icon": "icon-yunpan",
+    "collapsed": true,
+    "sites": [
+      {
+        "name": "橘子盘搜",
+        "src": "https://www.nmme.cc/s/1/{q}"
+      },
+      {
+        "name": "来搜一下",
+        "src": "https://www.laisoyixia.com/s/search?q={q}"
+      },
+      {
+        "name": "YouGit",
+        "src": "https://yougit.net/search/?q={q}"
+      },
+      {
+        "name": "咔帕",
+        "src": "https://www.cuppaso.fun/search?type=all&searchType=0&page=1&keyword={q}"
+      },
+      {
+        "name": "YaPan",
+        "src": "https://pan.ccof.cc/search?keyword={q}"
+      },
+      {
+        "name": "猫狸",
+        "src": "https://www.alipansou.com/search?k={q}"
+      }
+    ]
+  },
+  {
+    "name": "磁力",
+    "icon": "icon-lianjie",
+    "collapsed": true,
+    "sites": [
+      {
+        "name": "奇妙搜索",
+        "src": "http://www.magicalsearch.cn/search?cpage=first&m=1&word={q}",
+        "blank": true
+      },
+      {
+        "name": "无极磁链",
+        "src": "https://cili.uk/search?q={q}"
+      },
+      {
+        "name": "搜番",
+        "src": "https://co.sofan.ws/"
+      },
+      {
+        "name": "磁力猫",
+        "src": "https://clm307.buzz/search-{q}-0-0-1.html"
+      }
+    ]
+  },
+  {
+    "name": "图片",
+    "icon": "icon-tupian",
+    "collapsed": true,
+    "sites": [
+      {
+        "ico": "sogou.ico",
+        "name": "搜狗",
+        "src": "https://pic.sogou.com/pics?query={q}"
+      },
+      {
+        "ico": "haosou.ico",
+        "name": "360",
+        "src": "https://image.so.com/i?src=srp&q={q}"
+      },
+      {
+        "ico": "bing.ico",
+        "name": "Bing",
+        "src": "https://cn.bing.com/images/search?q={q}"
+      },
+      {
+        "name": "Google",
+        "src": "https://www.google.com/search?tbm=isch&q={q}",
+        "blank": true
+      }
+    ]
+  },
+  {
+    "name": "杂类",
+    "icon": "icon-qita1",
+    "collapsed": true,
+    "sites": [
+      {
+        "name": "Emoji",
+        "src": "https://emojixd.com/search?q={q}"
+      },
+      {
+        "name": "油猴",
+        "src": "https://greasyfork.org/",
+        "blank": true
+      },
+      {
+        "name": "知乎",
+        "src": "https://www.zhihu.com/search?type=question&q={q}"
+      }
+    ]
+  }
+]
