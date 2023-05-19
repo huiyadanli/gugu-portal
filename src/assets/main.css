@@ -1,3 +1,6 @@
+.arco-layout {
+    height: 100vh;
+}
 
 body {
     background-color: var(--color-neutral-1);
@@ -210,7 +213,7 @@ li {
 
 .button-trigger {
     position: fixed;
-    right: 120px;
+    right: 320px;
     bottom: 60px;
     display: flex;
     align-items: center;
@@ -223,6 +226,7 @@ li {
     cursor: pointer;
     transition: all 0.1s;
     background-color: var(--color-neutral-5);
+    z-index: 999;
 }
 
 .button-trigger.button-trigger-active {

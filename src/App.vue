@@ -39,6 +39,7 @@
       </a-menu>
     </div>-->
 
+  <!-- 右下角按钮 -->
   <a-trigger
       :trigger="['click', 'hover']"
       clickToClose
@@ -65,127 +66,159 @@
         </a-menu-item>
         <a-menu-item key="2">
           <template #icon>
-            <IconEdit></IconEdit>
+            <IconSettings></IconSettings>
           </template>
-          启用编辑功能
+          设置导航
         </a-menu-item>
       </a-menu>
     </template>
   </a-trigger>
 
-  <!-- 下面是整个导航部分 -->
+  <a-layout>
+    <a-layout>
+      <a-layout-content>
 
-<!-- 搜索功能 -->
-  <div style="padding: 20px; flex-direction: column; display: flex;  justify-content: center;  align-items: center;">
-    <div>
-      <a-space direction="vertical" size="large" style="border: 1px solid var(--color-neutral-3);">
-        <a-input-search :style="{width:'760px'}" placeholder="输入关键词后，点击下方的搜索网站，直接会跳转到新标签页搜索"
-                        v-model="keywords"/>
-      </a-space>
+        <!-- 下面是整个导航部分 -->
 
-      <div class="search-panel">
-        <div v-for="line in searchToolbox">
-          <div :class="{'search-line': true, 'no-visible': line.collapsed}">
-            <div class="search-line-title"><span class="nowrap">{{ line.name }}</span></div>
-            <ul class="search-line-ul">
-              <li class="search-line-li" v-for="site in line.sites">
-                <a class="search-line-li-a cursor-pointer" @click="goToSearch(site.src)">
-                  <img class="search-line-li-a-img" :src="'https://0x3.com/icon?host=' + getUrlHost(site.src)">
-                  <span class="nowrap">{{ site.name }}</span>
-                </a>
-              </li>
-            </ul>
+        <!-- 搜索功能 -->
+        <div
+            style="padding: 20px; flex-direction: column; display: flex;  justify-content: center;  align-items: center;">
+          <div>
+            <a-space direction="vertical" size="large" style="border: 1px solid var(--color-neutral-3);">
+              <a-input-search :style="{width:'760px'}"
+                              placeholder="输入关键词后，点击下方的搜索网站，直接会跳转到新标签页搜索"
+                              v-model="keywords"/>
+            </a-space>
+
+            <div class="search-panel">
+              <div v-for="line in searchToolbox">
+                <div :class="{'search-line': true, 'no-visible': line.collapsed}">
+                  <div class="search-line-title"><span class="nowrap">{{ line.name }}</span></div>
+                  <ul class="search-line-ul">
+                    <li class="search-line-li" v-for="site in line.sites">
+                      <a class="search-line-li-a cursor-pointer" @click="goToSearch(site.src)">
+                        <img class="search-line-li-a-img" :src="'https://0x3.com/icon?host=' + getUrlHost(site.src)">
+                        <span class="nowrap">{{ site.name }}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="search-bottom" :style="{ marginTop : searchToolboxCollapsed ? '-420px' : '0px'}">
+              <a-divider :margin="10" v-if="searchToolboxCollapsed">
+                <a-button shape="circle" size="mini" @click="switchSearchPanel()">
+                  <icon-down v-if="searchToolboxCollapsed"/>
+                </a-button>
+              </a-divider>
+              <a-divider :margin="10" v-if="!searchToolboxCollapsed">
+                <a-button shape="circle" size="mini" @click="switchSearchPanel()">
+                  <icon-up v-if="!searchToolboxCollapsed"/>
+                </a-button>
+              </a-divider>
+            </div>
+
           </div>
+
+          <!-- 编辑功能 -->
+          <div style="">
+            <a-space size="medium" :class="{'hidden':!controlEditable}">
+              <span style="color: var(--color-text-2);">编辑功能：</span>
+              <!--        <a-switch v-model="controlEditable"/>-->
+              <a-button type="primary" @click="promptTabAt(box.length)" :class="{'hidden':!controlEditable}"
+                        size="mini">
+                <template #icon>
+                  <icon-plus/>
+                </template>
+                <template #default>添加面板</template>
+              </a-button>
+              <a-button type="primary" @click="handleSettingsFormDisplay" :class="{'hidden':!controlEditable}"
+                        size="mini">
+                <template #icon>
+                  <IconEdit/>
+                </template>
+                <template #default>编辑JSON</template>
+              </a-button>
+              <a-button type="primary" @click="" :class="{'hidden':!controlEditable}" size="mini">
+                <template #icon>
+                  <IconImport/>
+                </template>
+                <template #default>从Chrome书签中导入</template>
+              </a-button>
+              <a-button type="primary" @click="box = reactive(defaultBox)" :class="{'hidden':!controlEditable}"
+                        size="mini">
+                <template #icon>
+                  <IconUndo/>
+                </template>
+                <template #default>重置为默认</template>
+              </a-button>
+              <!--        <input type="file" ref="file" :class="{'hidden':!controlEditable}" @change="readFile()"/>-->
+            </a-space>
+
+            <!-- 导航本体 -->
+            <draggable :list="box" handle=".category-drag-handle" :animation="100" draggable=".tab" group="tabs"
+                       itemKey="index">
+              <template #item="{element:tab, index: t}">
+                <a-card :key="t" class="tab" :style="{ width: '760px','margin-top': '20px' }" :title="tab.name"
+                        hoverable>
+                  <template #extra>
+                    <a-space size="medium">
+                      <i class="iconfont icon-tuozhuai category-drag-handle grabbable" v-if="controlEditable"></i>
+                      <i class="iconfont cursor-pointer icon-bianji" v-if="controlEditable" @click="promptTabAt(t)"></i>
+                      <i class="iconfont cursor-pointer icon-chacha" v-if="controlEditable" @click="removeTabAt(t)"></i>
+                    </a-space>
+                  </template>
+
+                  <a-tabs type="card" size="medium" :editable="controlEditable" :show-add-button="controlEditable"
+                          @add="handleTabAdd(t)" @delete="handleTabDelete"
+                          auto-switch>
+                    <a-tab-pane v-for="(category, i) in tab.categories" :key="t + '_' + i" :title="category.name">
+                      <draggable tag="ul" :list="category.links" class="list-group" :animation="100"
+                                 draggable=".link-li"
+                                 group="links" itemKey="i">
+                        <template #item="{element :link, index: j}">
+                          <li :class="{'link-li': true, 'link-li-editable':controlEditable}">
+                            <div class="link-chip">
+                              <img class="link-chip-image" :src="'https://0x3.com/icon?host=' + getUrlHost(link.url)">
+                              <a-tooltip :content="link.name" position="tl" mini>
+                                <a class="link-a" :data-url="link.url" @click.left="goToUrl(t, i, j,link.url)"
+                                   @click.middle="goToUrl(t, i, j,link.url)">{{ link.name }}</a>
+                              </a-tooltip>
+                              <div :class="{'link-chip-btn': true, 'hidden':!controlEditable}">
+                                <i class="iconfont cursor-pointer icon-chacha" @click="removeLinkAt(t, i, j)"></i>
+                              </div>
+                            </div>
+                          </li>
+                        </template>
+                        <template #footer>
+                          <li class="link-li">
+                            <div :class="{'link-chip': true,'cursor-pointer': true,'hidden':!controlEditable}"
+                                 @click="promptLinkAt(t, i, category.links.length)">
+                              <span class="link-chip-image">➕</span>
+                              <a class="link-a" style="width: auto">添加</a>
+                            </div>
+                          </li>
+                        </template>
+                      </draggable>
+                    </a-tab-pane>
+                  </a-tabs>
+                </a-card>
+              </template>
+            </draggable>
+
+          </div>
+
         </div>
-      </div>
+      </a-layout-content>
+      <a-layout-sider
+          :width="220"
+          :collapsed="settingsForm.visible"
+          @collapse="onCollapse">
 
-      <div class="search-bottom" :style="{ marginTop : searchToolboxCollapsed ? '-420px' : '0px'}">
-        <a-divider :margin="10" v-if="searchToolboxCollapsed">
-          <a-button shape="circle" size="mini" @click="switchSearchPanel()">
-            <icon-down v-if="searchToolboxCollapsed"/>
-          </a-button>
-        </a-divider>
-        <a-divider :margin="10" v-if="!searchToolboxCollapsed">
-          <a-button shape="circle" size="mini" @click="switchSearchPanel()">
-            <icon-up v-if="!searchToolboxCollapsed"/>
-          </a-button>
-        </a-divider>
-      </div>
-
-    </div>
-
-    <!-- 编辑功能 -->
-    <div style="">
-      <a-space size="medium" :class="{'hidden':!controlEditable}">
-        <span style="color: var(--color-text-2);">编辑功能：</span>
-        <!--        <a-switch v-model="controlEditable"/>-->
-        <a-button type="primary" @click="promptTabAt(box.length)" :class="{'hidden':!controlEditable}" size="mini">
-          <template #icon>
-            <icon-plus/>
-          </template>
-          <template #default>添加面板</template>
-        </a-button>
-        <a-button type="primary" @click="box = reactive(defaultBox)" :class="{'hidden':!controlEditable}" size="mini">
-          <template #icon>
-            <icon-refresh/>
-          </template>
-          <template #default>重置为默认</template>
-        </a-button>
-        <input type="file" ref="file" :class="{'hidden':!controlEditable}" @change="readFile()"/>
-      </a-space>
-
-      <!-- 导航本体 -->
-      <draggable :list="box" handle=".category-drag-handle" :animation="100" draggable=".tab" group="tabs"
-                 itemKey="index">
-        <template #item="{element:tab, index: t}">
-          <a-card :key="t" class="tab" :style="{ width: '760px','margin-top': '20px' }" :title="tab.name" hoverable>
-            <template #extra>
-              <a-space size="medium">
-                <i class="iconfont icon-tuozhuai category-drag-handle grabbable" v-if="controlEditable"></i>
-                <i class="iconfont cursor-pointer icon-bianji" v-if="controlEditable" @click="promptTabAt(t)"></i>
-                <i class="iconfont cursor-pointer icon-chacha" v-if="controlEditable" @click="removeTabAt(t)"></i>
-              </a-space>
-            </template>
-
-            <a-tabs type="card" size="medium" :editable="controlEditable" :show-add-button="controlEditable"
-                    @add="handleTabAdd(t)" @delete="handleTabDelete"
-                    auto-switch>
-              <a-tab-pane v-for="(category, i) in tab.categories" :key="t + '_' + i" :title="category.name">
-                <draggable tag="ul" :list="category.links" class="list-group" :animation="100" draggable=".link-li"
-                           group="links" itemKey="i">
-                  <template #item="{element :link, index: j}">
-                    <li :class="{'link-li': true, 'link-li-editable':controlEditable}">
-                      <div class="link-chip">
-                        <img class="link-chip-image" :src="'https://0x3.com/icon?host=' + getUrlHost(link.url)">
-                        <a-tooltip :content="link.name" position="tl" mini>
-                          <a class="link-a" :data-url="link.url" @click.left="goToUrl(t, i, j,link.url)"
-                             @click.middle="goToUrl(t, i, j,link.url)">{{ link.name }}</a>
-                        </a-tooltip>
-                        <div :class="{'link-chip-btn': true, 'hidden':!controlEditable}">
-                          <i class="iconfont cursor-pointer icon-chacha" @click="removeLinkAt(t, i, j)"></i>
-                        </div>
-                      </div>
-                    </li>
-                  </template>
-                  <template #footer>
-                    <li class="link-li">
-                      <div :class="{'link-chip': true,'cursor-pointer': true,'hidden':!controlEditable}"
-                           @click="promptLinkAt(t, i, category.links.length)">
-                        <span class="link-chip-image">➕</span>
-                        <a class="link-a" style="width: auto">添加</a>
-                      </div>
-                    </li>
-                  </template>
-                </draggable>
-              </a-tab-pane>
-            </a-tabs>
-          </a-card>
-        </template>
-      </draggable>
-
-    </div>
-
-  </div>
+      </a-layout-sider>
+    </a-layout>
+  </a-layout>
 
   <a-modal v-model:visible="form.visible" @ok="handleOk" simple>
     <a-form :model="form">
@@ -197,6 +230,15 @@
       </a-form-item>
     </a-form>
   </a-modal>
+
+<!--  <a-modal v-model:visible="settingsForm.visible" title="设置" @ok="handleSettingsFormOk" simple>
+    <a-form>
+      <a-textarea v-model="settingsForm.boxStr" :auto-size="{
+    minRows:5,
+    maxRows:10
+  }"/>
+    </a-form>
+  </a-modal>-->
 
 </template>
 
@@ -216,10 +258,19 @@ import {
   IconRefresh,
   IconEdit,
   IconGithub,
+  IconImport,
+  IconExport,
+  IconSettings,
+  IconUndo,
 } from '@arco-design/web-vue/es/icon';
 import {Message} from '@arco-design/web-vue';
 import defaultBox from './json/defaultBox.json'
 import defaultSearchToolbox from './json/defaultSearchToolbox.json'
+
+let settingsForm = reactive({
+  visible: false,
+  boxStr: '',
+});
 
 let cornerMenuPopupVisible = ref(false);
 let controlEditable = ref(false);
@@ -483,6 +534,20 @@ const cornerMenuClick = (key, openKeys) => {
     Message.error({content: `未知的菜单key`, showIcon: true});
   }
 }
+
+const handleSettingsFormDisplay = () => {
+  settingsForm.visible = true;
+  settingsForm.boxStr = JSON.stringify(box);
+}
+
+const handleSettingsFormOk = () => {
+  try {
+    box = JSON.parse(settingsForm.boxStr);
+    settingsForm.visible = false;
+  } catch (e) {
+    Message.error({content: `JSON配置解析失败`, showIcon: true});
+  }
+}
 </script>
 
 <style>
@@ -539,7 +604,6 @@ const cornerMenuClick = (key, openKeys) => {
   right: 8px;
   bottom: 8px;
 }*/
-
 
 
 </style>
