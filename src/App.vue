@@ -331,6 +331,8 @@ let searchToolboxCollapsed = ref(true);
 /**
  * 'https://0x3.com/icon?host=' + getUrlHost(link.url)
  * 'https://api.iowen.cn/favicon/' + getUrlHost(link.url) + '.png'
+ * https://api.yigekuang.cn/favicon/www.yigekuang.cn.png
+ * https://ico.kucat.cn/get.php?url=https://网址/
  * @param url
  * @returns {string}
  */
