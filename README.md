@@ -1,14 +1,18 @@
 # 咕咕导航
 
-基于 [Arco Design Vue](https://arco.design/vue/component/icon) 写的自用导航。
+基于 Vue3 写的自用导航，纯静态页面无后端，框架用了 [Arco Design](https://arco.design/vue/docs/start)c 。
 
-可以直接在线编辑导航内容，内容通过 `localStorage` 以json形式的配置保存在 `customBox` 中。
+可以直接在线编辑导航内容，所有面板、分类、网址链接都可以随意新增、修改、删除、拖拽位置，数据以 JSON 形式的配置保存在浏览器 `localStorage` 的 `customBox` 中。
 
 在线示例： https://gugu-nav.vercel.app/
 
+## 截图
+
+![Screenshot](https://raw.githubusercontent.com/huiyadanli/gugu-portal/main/docs/screenshot.png)
+
 ## TODO
 
-- [ ] 从Chrome中导入书签
+- [ ] 可以直接导入从Chrome导出的书签文件,导入时可以勾选
 
 ## Project Setup
 

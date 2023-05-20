@@ -96,7 +96,7 @@
                   <div class="search-line-title"><span class="nowrap">{{ line.name }}</span></div>
                   <ul class="search-line-ul">
                     <li class="search-line-li" v-for="site in line.sites">
-                      <a class="search-line-li-a cursor-pointer" @click="goToSearch(site.src)">
+                      <a class="search-line-li-a cursor-pointer" @click.left="goToSearch(site.src)" @click.middle="goToSearch(site.src)" >
                         <img class="search-line-li-a-img" :src="'https://0x3.com/icon?host=' + getUrlHost(site.src)">
                         <span class="nowrap">{{ site.name }}</span>
                       </a>
