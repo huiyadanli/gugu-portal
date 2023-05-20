@@ -5,10 +5,12 @@
 body {
     background-color: var(--color-neutral-1);
 }
+
 ul {
     padding: 0;
     margin: 0;
 }
+
 li {
     padding: 0;
     margin: 0;
@@ -179,9 +181,11 @@ li {
     border: 1px dashed transparent;
     padding: 2px;
 }
+
 .link-li-editable {
     border: 1px dashed #ddd;
 }
+
 .link-a {
     cursor: pointer;
     text-decoration: none;
@@ -194,6 +198,7 @@ li {
     height: 20px;
     line-height: 20px;
 }
+
 .link-chip-btn {
     float: right;
 }
@@ -213,7 +218,7 @@ li {
 
 .button-trigger {
     position: fixed;
-    right: 320px;
+    right: 220px;
     bottom: 60px;
     display: flex;
     align-items: center;
@@ -226,9 +231,35 @@ li {
     cursor: pointer;
     transition: all 0.1s;
     background-color: var(--color-neutral-5);
-    z-index: 999;
+    /*z-index: 999;*/
+}
+
+.button-trigger-settings {
+    right: 420px; !important;
 }
 
 .button-trigger.button-trigger-active {
     background-color: var(--color-neutral-4);
+}
+
+/* 滚动条 */
+
+::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #adadaba4;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+/* 强制换行 */
+.json-textbox .arco-textarea {
+    word-break: break-all;
 }

@@ -46,7 +46,8 @@
       position="top"
       v-model:popupVisible="cornerMenuPopupVisible"
   >
-    <div :class="`button-trigger ${cornerMenuPopupVisible ? 'button-trigger-active' : ''}`">
+    <div
+        :class="`button-trigger ${cornerMenuPopupVisible ? 'button-trigger-active' : ''} ${controlEditable ? 'button-trigger-settings' : ''}`">
       <IconClose v-if="cornerMenuPopupVisible"/>
       <IconApps v-else/>
     </div>
@@ -74,11 +75,10 @@
     </template>
   </a-trigger>
 
+  <!-- 下面是整个导航部分 -->
   <a-layout>
     <a-layout>
-      <a-layout-content>
-
-        <!-- 下面是整个导航部分 -->
+      <a-layout-content id="main-content">
 
         <!-- 搜索功能 -->
         <div
@@ -123,38 +123,7 @@
 
           <!-- 编辑功能 -->
           <div style="">
-            <a-space size="medium" :class="{'hidden':!controlEditable}">
-              <span style="color: var(--color-text-2);">编辑功能：</span>
-              <!--        <a-switch v-model="controlEditable"/>-->
-              <a-button type="primary" @click="promptTabAt(box.length)" :class="{'hidden':!controlEditable}"
-                        size="mini">
-                <template #icon>
-                  <icon-plus/>
-                </template>
-                <template #default>添加面板</template>
-              </a-button>
-              <a-button type="primary" @click="handleSettingsFormDisplay" :class="{'hidden':!controlEditable}"
-                        size="mini">
-                <template #icon>
-                  <IconEdit/>
-                </template>
-                <template #default>编辑JSON</template>
-              </a-button>
-              <a-button type="primary" @click="" :class="{'hidden':!controlEditable}" size="mini">
-                <template #icon>
-                  <IconImport/>
-                </template>
-                <template #default>从Chrome书签中导入</template>
-              </a-button>
-              <a-button type="primary" @click="box = reactive(defaultBox)" :class="{'hidden':!controlEditable}"
-                        size="mini">
-                <template #icon>
-                  <IconUndo/>
-                </template>
-                <template #default>重置为默认</template>
-              </a-button>
-              <!--        <input type="file" ref="file" :class="{'hidden':!controlEditable}" @change="readFile()"/>-->
-            </a-space>
+
 
             <!-- 导航本体 -->
             <draggable :list="box" handle=".category-drag-handle" :animation="100" draggable=".tab" group="tabs"
@@ -210,11 +179,54 @@
           </div>
 
         </div>
+
       </a-layout-content>
+
+      <!--   设置侧边栏   -->
       <a-layout-sider
-          :width="220"
-          :collapsed="settingsForm.visible"
-          @collapse="onCollapse">
+          :width="300"
+          breakpoint="lg"
+          hide-trigger
+          collapsible
+          collapsed-width="0"
+          :collapsed="!controlEditable">
+
+        <a-layout>
+          <a-layout-header style="text-align: center; padding: 10px; border-bottom: 1px">设置</a-layout-header>
+          <a-layout-content :class="{'hidden':!controlEditable}">
+            <a-form :class="{'hidden':!settingsForm.visible}">
+              <a-textarea v-model="boxStr" :class="{'json-textbox':true}" :auto-size="{ minRows:5, maxRows:20 }"/>
+              <a-space style="margin-top: 12px;margin-left: 6px" wrap>
+                <a-button type="primary" @click="promptTabAt(box.length)"
+                          size="mini">
+                  <template #icon>
+                    <icon-plus/>
+                  </template>
+                  <template #default>添加面板</template>
+                </a-button>
+                <a-button type="primary" @click="importFromChrome" size="mini">
+                  <template #icon>
+                    <IconImport/>
+                  </template>
+                  <template #default>从Chrome书签中导入</template>
+                </a-button>
+                <a-button type="primary" @click="resetBox"
+                          size="mini">
+                  <template #icon>
+                    <IconUndo/>
+                  </template>
+                  <template #default>重置为默认</template>
+                </a-button>
+                <!--        <input type="file" ref="file" :class="{'hidden':!controlEditable}" @change="readFile()"/>-->
+              </a-space>
+            </a-form>
+          </a-layout-content>
+          <a-layout-footer style="text-align: center;height: 50px">
+            <a-space wrap>
+              <a-button type="secondary" @click="switchSettingsPanel">收起面板</a-button>
+            </a-space>
+          </a-layout-footer>
+        </a-layout>
 
       </a-layout-sider>
     </a-layout>
@@ -231,14 +243,20 @@
     </a-form>
   </a-modal>
 
-<!--  <a-modal v-model:visible="settingsForm.visible" title="设置" @ok="handleSettingsFormOk" simple>
-    <a-form>
-      <a-textarea v-model="settingsForm.boxStr" :auto-size="{
-    minRows:5,
-    maxRows:10
-  }"/>
-    </a-form>
-  </a-modal>-->
+  <!--  <a-modal v-model:visible="settingsForm.visible" title="设置" @ok="handleSettingsFormOk" simple>
+      <a-form>
+        <a-textarea v-model="settingsForm.boxStr" :auto-size="{ minRows:20, maxRows:20 }"/>
+      </a-form>
+    </a-modal>-->
+
+  <!--  <a-drawer :width="340" v-model:visible="controlEditable" @ok="handleSettingsFormOk" unmountOnClose :mask="false" mask-closable="">
+      <template #title>
+        设置
+      </template>
+      <a-form>
+        <a-textarea v-model="settingsForm.boxStr" :auto-size="{ minRows:5, maxRows:10 }"/>
+      </a-form>
+    </a-drawer>-->
 
 </template>
 
@@ -269,7 +287,6 @@ import defaultSearchToolbox from './json/defaultSearchToolbox.json'
 
 let settingsForm = reactive({
   visible: false,
-  boxStr: '',
 });
 
 let cornerMenuPopupVisible = ref(false);
@@ -277,10 +294,35 @@ let controlEditable = ref(false);
 
 let customBox = localStorage.getItem("customBox");
 let box = customBox ? reactive(JSON.parse(customBox)) : reactive(defaultBox);
+let boxStr = ref(JSON.stringify(box)); // 展示在设置内的json字符串
+let boxPreStr = boxStr.value; // 用于判断是否需要更新 防止watch死循环
 
 watch(box, (newVal, oldVal) => {
-  localStorage.setItem("customBox", JSON.stringify(newVal));
+  let tmp = JSON.stringify(newVal);
+  if (boxPreStr !== tmp) {
+    boxStr.value = tmp;
+    boxPreStr = tmp;
+    localStorage.setItem("customBox", tmp);
+  }
 })
+
+watch(boxStr, (newVal, oldVal) => {
+  try {
+    if (boxPreStr !== newVal) {
+      // reactive 重新赋值
+      let newBox = JSON.parse(newVal);
+      box.splice(0, box.length);
+      box.push(...newBox);
+    }
+  } catch (e) {
+    Message.error({content: `JSON配置解析失败`, showIcon: true});
+  }
+})
+
+const resetBox = () => {
+  box.splice(0, box.length);
+  box.push(...defaultBox);
+}
 
 let keywords = ref('');
 const searchToolbox = reactive(defaultSearchToolbox);
@@ -443,6 +485,11 @@ const handleTabDelete = (key) => {
 
 const file = ref(null)
 let bookmarkRoot = [];
+const importFromChrome = () => {
+  Message.warning({content: `建设中...`, showIcon: true});
+}
+
+
 const readFile = () => {
   let f = file.value.files[0];
   const reader = new FileReader();
@@ -529,15 +576,26 @@ const cornerMenuClick = (key, openKeys) => {
   if (key === '1') {
     window.open('https://github.com/huiyadanli');
   } else if (key === '2') {
-    controlEditable.value = !controlEditable.value;
+    switchSettingsPanel();
   } else {
     Message.error({content: `未知的菜单key`, showIcon: true});
   }
+  cornerMenuPopupVisible.value = !cornerMenuPopupVisible.value; // 点击后立马消失
 }
 
-const handleSettingsFormDisplay = () => {
-  settingsForm.visible = true;
-  settingsForm.boxStr = JSON.stringify(box);
+
+const switchSettingsPanel = () => {
+  if (controlEditable.value) {
+    settingsForm.visible = !settingsForm.visible;
+    controlEditable.value = !controlEditable.value;
+  } else {
+    controlEditable.value = !controlEditable.value;
+    // 动画完成后再展示textarea,这样页面不会因为动画而卡顿,动画时常为200ms
+    setTimeout(function () {
+      settingsForm.visible = !settingsForm.visible;
+    }, 300);
+  }
+
 }
 
 const handleSettingsFormOk = () => {
@@ -548,6 +606,22 @@ const handleSettingsFormOk = () => {
     Message.error({content: `JSON配置解析失败`, showIcon: true});
   }
 }
+
+const handleSettingsPanelDisplay = () => {
+  settingsForm.visible = true;
+  settingsForm.boxStr = JSON.stringify(box);
+}
+
+const handleSettingsPanelBoxStrChange = () => {
+  try {
+    box = JSON.parse(settingsForm.boxStr);
+    settingsForm.visible = false;
+  } catch (e) {
+    Message.error({content: `JSON配置解析失败`, showIcon: true});
+  }
+}
+
+
 </script>
 
 <style>
