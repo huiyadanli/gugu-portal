@@ -202,7 +202,7 @@
                   <template #icon>
                     <icon-plus/>
                   </template>
-                  <template #default>添加面板</template>
+                  <template #default>添加导航面板</template>
                 </a-button>
                 <a-button type="primary" @click="importFromChrome" size="mini">
                   <template #icon>
@@ -223,7 +223,7 @@
           </a-layout-content>
           <a-layout-footer style="text-align: center;height: 50px">
             <a-space wrap>
-              <a-button type="secondary" @click="switchSettingsPanel">收起面板</a-button>
+              <a-button type="secondary" @click="switchSettingsPanel">收起设置</a-button>
             </a-space>
           </a-layout-footer>
         </a-layout>
