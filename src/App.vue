@@ -574,7 +574,7 @@ const parse = (dtList, bookmarkList) => {
 
 const cornerMenuClick = (key, openKeys) => {
   if (key === '1') {
-    window.open('https://github.com/huiyadanli');
+    window.open('https://github.com/huiyadanli/gugu-portal');
   } else if (key === '2') {
     switchSettingsPanel();
   } else {
@@ -596,29 +596,6 @@ const switchSettingsPanel = () => {
     }, 300);
   }
 
-}
-
-const handleSettingsFormOk = () => {
-  try {
-    box = JSON.parse(settingsForm.boxStr);
-    settingsForm.visible = false;
-  } catch (e) {
-    Message.error({content: `JSON配置解析失败`, showIcon: true});
-  }
-}
-
-const handleSettingsPanelDisplay = () => {
-  settingsForm.visible = true;
-  settingsForm.boxStr = JSON.stringify(box);
-}
-
-const handleSettingsPanelBoxStrChange = () => {
-  try {
-    box = JSON.parse(settingsForm.boxStr);
-    settingsForm.visible = false;
-  } catch (e) {
-    Message.error({content: `JSON配置解析失败`, showIcon: true});
-  }
 }
 
 
