@@ -1,6 +1,6 @@
 # 咕咕导航
 
-基于 Vue3 写的自用导航，纯静态页面无后端，框架用了 [Arco Design](https://arco.design/vue/docs/start)c 。
+基于 Vue3 写的自用导航，纯静态页面无后端，框架用了 [Arco Design](https://arco.design/vue/docs/start) 。
 
 可以直接在线编辑导航内容，所有面板、分类、网址链接都可以随意新增、修改、删除、拖拽位置，数据以 JSON 形式的配置保存在浏览器 `localStorage` 的 `customBox` 中。
 
