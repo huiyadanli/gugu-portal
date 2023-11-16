@@ -4,7 +4,8 @@
 
 可以直接在线编辑导航内容，所有面板、分类、网址链接都可以随意新增、修改、删除、拖拽位置，数据以 JSON 形式的配置保存在浏览器 `localStorage` 的 `customBox` 中。
 
-在线示例： https://gugu-nav.vercel.app/
+在线示例： https://gugu.huiyadan.com/
+备用： https://gugu-nav.vercel.app/
 
 ## 截图
 
